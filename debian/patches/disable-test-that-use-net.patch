@@ -1,0 +1,16 @@
+Description: Disable test that use internet.
+Author: Utkarsh Gupta <utkarsh@debian.org>
+Forwarded: https://github.com/omniauth/omniauth/issues/997
+Last-Update: 2020-03-29
+
+--- a/spec/omniauth/strategy_spec.rb
++++ b/spec/omniauth/strategy_spec.rb
+@@ -240,7 +240,7 @@
+   end
+ 
+   describe '#redirect' do
+-    it 'uses javascript if :iframe is true' do
++    xit 'uses javascript if :iframe is true' do
+       response = ExampleStrategy.new(app, :iframe => true).redirect('http://abc.com')
+       expected_body = "<script type='text/javascript' charset='utf-8'>top.location.href = 'http://abc.com';</script>"
+ 

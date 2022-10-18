@@ -1,0 +1,37 @@
+Source: ruby-omniauth
+Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Uploaders: Pirate Praveen <praveen@debian.org>,
+           Utkarsh Gupta <utkarsh@debian.org>
+Section: ruby
+Testsuite: autopkgtest-pkg-ruby
+Priority: optional
+Build-Depends: debhelper-compat (= 12),
+               gem2deb,
+               rake,
+               ruby-hashie (>= 3.4.6~),
+               ruby-rack,
+               ruby-rack-test,
+               ruby-rspec,
+               ruby-simplecov,
+               ruby-coveralls
+Standards-Version: 4.5.0
+Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-omniauth
+Vcs-Git: https://salsa.debian.org/ruby-team/ruby-omniauth.git
+Homepage: https://github.com/omniauth/omniauth
+XS-Ruby-Versions: all
+Rules-Requires-Root: no
+
+Package: ruby-omniauth
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ruby-hashie (>= 3.4.6~),
+         ruby-rack,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: flexible authentication system utilizing Rack middleware
+ OmniAuth is a Ruby library that standardizes multi-provider
+ authentication for web applications. It was created to be powerful,
+ flexible, and do as little as possible. Any developer can create
+ strategies for OmniAuth that can authenticate users via disparate
+ systems. OmniAuth strategies have been created for everything from
+ Facebook to LDAP.

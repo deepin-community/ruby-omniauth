@@ -1,0 +1,107 @@
+ruby-omniauth (1.9.1-1) unstable; urgency=medium
+
+  * New upstream version 1.9.1
+  * Add patch to skip test that uses net
+  * Fix package wrt cme
+  * Add Rules-Requires-Root: no
+  * Drop runtime dependency on ruby interpreter
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Mon, 30 Mar 2020 00:41:25 +0530
+
+ruby-omniauth (1.9.0-1) unstable; urgency=medium
+
+  * Team Upload
+
+  [ Utkarsh Gupta ]
+  * Add salsa-ci.yml
+
+  [ Samyak Jain ]
+  * Switch d/watch to github tarball
+  * New upstream version 1.9.0
+  * Remove d/compat and bump Standards-Version
+  * Adds metadata in d/upstream
+
+ -- Samyak Jain <samyak.jn11@gmail.com>  Thu, 24 Oct 2019 04:05:08 +0530
+
+ruby-omniauth (1.8.1-1) unstable; urgency=medium
+
+  * New upstream version 1.8.1
+  * Bump Standards-Version to 4.1.4 (no changes needed)
+  * Use salsa.debian.org in Vcs-* fields
+  * Bump debhelper compatibility level to 11
+  * Update gemwatch url
+  * Update homepage
+
+ -- Pirate Praveen <praveen@debian.org>  Wed, 25 Apr 2018 09:52:43 +0530
+
+ruby-omniauth (1.6.1-2) unstable; urgency=medium
+
+  * Reupload to unstable
+  * Bump standards version to 4.1.3, debhelper compat to 11
+
+ -- Pirate Praveen <praveen@debian.org>  Wed, 21 Feb 2018 22:33:28 +0530
+
+ruby-omniauth (1.6.1-1) experimental; urgency=medium
+
+  * New upstream release
+  * Remove patches and add build dependency on ruby-coveralls and
+    ruby-simplecov
+
+ -- Pirate Praveen <praveen@debian.org>  Mon, 03 Jul 2017 17:30:31 +0530
+
+ruby-omniauth (1.3.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Rahulkrishnan R A <rahulkrishnanfs@gmail.com>  Fri, 26 Feb 2016 11:05:18 +0000
+
+ruby-omniauth (1.2.2-3) unstable; urgency=medium
+
+  * Team upload.
+  * Refresh packaging with a new dh-make-ruby run
+    - Relaxes (build-)dependency on ruby-hashie according to the upstream
+      metadata, from (<< 3) to (<< 4)
+
+ -- Antonio Terceiro <terceiro@debian.org>  Wed, 15 Jul 2015 14:56:53 -0300
+
+ruby-omniauth (1.2.2-2) unstable; urgency=medium
+
+  * Team upload.
+  * Re-upload to unstable.
+
+ -- Pirate Praveen <praveen@debian.org>  Mon, 27 Apr 2015 15:01:01 +0530
+
+ruby-omniauth (1.2.2-1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump standards version to 3.9.6 (no changes).
+  * Add myself to uploaders.
+
+ -- Pirate Praveen <praveen@debian.org>  Thu, 20 Nov 2014 11:22:56 +0530
+
+ruby-omniauth (1.2.1-1) unstable; urgency=low
+
+  * Team upload
+  * New upstream release
+    - restores compatibility with omniauth-facebook gem
+  * Refresh patches
+
+ -- Pirate Praveen <praveen@debian.org>  Wed, 07 May 2014 20:14:14 +0530
+
+ruby-omniauth (1.1.4-2) unstable; urgency=low
+
+  * Team upload.
+  * Rebuild with gem2deb >= 0.7.5~ (ruby all)
+  * Bump standards version to 3.9.5 (no changes)
+  * Run tests using ruby-tests.rake
+  * Add ruby-rspec and ruby-rack-test to build deps
+
+ -- Pirate Praveen <praveen@debian.org>  Wed, 30 Apr 2014 13:34:52 +0530
+
+ruby-omniauth (1.1.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #638910)
+
+ -- Ondřej Surý <ondrej@debian.org>  Mon, 15 Apr 2013 11:43:01 +0200
