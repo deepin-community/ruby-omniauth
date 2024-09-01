@@ -1,0 +1,22 @@
+From: Antonio Terceiro <terceiro@debian.org>
+Date: Thu, 10 Jun 2021 09:17:32 -0300
+Subject: spec/helper.rb: skip all coverage check during build
+
+This coverage check is not useful for useful for Debian as a downstream,
+and requires packages that we do not yet have in the archive.
+
+Forwarded: not-needed
+---
+ spec/helper.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/spec/helper.rb b/spec/helper.rb
+index 6583992..2c0c846 100644
+--- a/spec/helper.rb
++++ b/spec/helper.rb
+@@ -1,4 +1,4 @@
+-if RUBY_VERSION >= '1.9'
++if false
+   require 'simplecov'
+   require 'coveralls'
+   require 'simplecov-lcov'

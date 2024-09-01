@@ -1,15 +1,21 @@
 # OmniAuth: Standardized Multi-Provider Authentication
 
 [![Gem Version](http://img.shields.io/gem/v/omniauth.svg)][gem]
-[![Build Status](http://img.shields.io/travis/omniauth/omniauth.svg)][travis]
-[![Code Climate](http://img.shields.io/codeclimate/github/omniauth/omniauth.svg)][codeclimate]
+[![Ruby](https://github.com/omniauth/omniauth/actions/workflows/main.yml/badge.svg)][githubactions]
+[![TruffleRuby](https://github.com/omniauth/omniauth/actions/workflows/truffle_ruby.yml/badge.svg)][githubactionstruffle]
+[![JRuby](https://github.com/omniauth/omniauth/actions/workflows/jruby.yml/badge.svg)][githubactionsjruby]
+[![Code Climate](https://api.codeclimate.com/v1/badges/ffd33970723587806744/maintainability)][codeclimate]
 [![Coverage Status](http://img.shields.io/coveralls/omniauth/omniauth.svg)][coveralls]
-[![Security](https://hakiri.io/github/omniauth/omniauth/master.svg)](https://hakiri.io/github/omniauth/omniauth/master)
 
 [gem]: https://rubygems.org/gems/omniauth
-[travis]: http://travis-ci.org/omniauth/omniauth
+[githubactions]: https://github.com/omniauth/omniauth/actions/workflows/main.yml
+[githubactionstruffle]: https://github.com/omniauth/omniauth/actions/workflows/truffle_ruby.yml
+[githubactionsjruby]: https://github.com/omniauth/omniauth/actions/workflows/jruby.yml
 [codeclimate]: https://codeclimate.com/github/omniauth/omniauth
 [coveralls]: https://coveralls.io/r/omniauth/omniauth
+
+This is the documentation for the in-development branch of OmniAuth.
+You can find the documentation for the latest stable release [here](https://github.com/omniauth/omniauth/tree/v2.1.1)
 
 ## An Introduction
 OmniAuth is a library that standardizes multi-provider authentication for
@@ -32,8 +38,8 @@ development and easily swap in other strategies later.
 ## Getting Started
 Each OmniAuth strategy is a Rack Middleware. That means that you can use
 it the same way that you use any other Rack middleware. For example, to
-use the built-in Developer strategy in a Sinatra application I might do
-this:
+use the built-in Developer strategy in a Sinatra application you might
+do this:
 
 ```ruby
 require 'sinatra'
@@ -45,7 +51,7 @@ class MyApplication < Sinatra::Base
 end
 ```
 
-Because OmniAuth is built for *multi-provider* authentication, I may
+Because OmniAuth is built for *multi-provider* authentication, you may
 want to leave room to run multiple strategies. For this, the built-in
 `OmniAuth::Builder` class gives you an easy way to specify multiple
 strategies. Note that there is **no difference** between the following
@@ -82,33 +88,9 @@ environment of a request to `/auth/:provider/callback`. This hash
 contains as much information about the user as OmniAuth was able to
 glean from the utilized strategy. You should set up an endpoint in your
 application that matches to the callback URL and then performs whatever
-steps are necessary for your application. For example, in a Rails app I
-would add a line in my `routes.rb` file like this:
+steps are necessary for your application. 
 
-```ruby
-get '/auth/:provider/callback', to: 'sessions#create'
-```
-
-And I might then have a `SessionsController` with code that looks
-something like this:
-
-```ruby
-class SessionsController < ApplicationController
-  def create
-    @user = User.find_or_create_from_auth_hash(auth_hash)
-    self.current_user = @user
-    redirect_to '/'
-  end
-
-  protected
-
-  def auth_hash
-    request.env['omniauth.auth']
-  end
-end
-```
-
-The `omniauth.auth` key in the environment hash gives me my
+The `omniauth.auth` key in the environment hash provides an
 Authentication Hash which will contain information about the just
 authenticated user including a unique id, the strategy they just used
 for authentication, and personal details such as name and email address
@@ -120,35 +102,74 @@ environment information on the callback request. It is entirely up to
 you how you want to implement the particulars of your application's
 authentication flow.
 
-**Please note:** there is currently a CSRF vulnerability which affects OmniAuth (designated [CVE-2015-9284](https://nvd.nist.gov/vuln/detail/CVE-2015-9284)) that requires mitigation at the application level. More details on how to do this can be found on the [Wiki](https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284).
+## rack_csrf
 
-## Configuring The `origin` Param
-The `origin` url parameter is typically used to inform where a user came from and where, should you choose to use it, they'd want to return to.
+`omniauth` is not OOTB-compatible with [rack_csrf](https://github.com/baldowl/rack_csrf). In order to do so, the following code needs to be added to the application bootstrapping code:
 
-There are three possible options:
-
-Default Flow:
 ```ruby
-# /auth/twitter/?origin=[URL]
-# No change
-# If blank, `omniauth.origin` is set to HTTP_REFERER
+OmniAuth::AuthenticityTokenProtection.default_options(key: "csrf.token", authenticity_param: "_csrf")
 ```
 
-Renaming Origin Param:
+## Rails (without Devise)
+To get started, add the following gems
+
+**Gemfile**:
 ```ruby
-# /auth/twitter/?return_to=[URL]
-# If blank, `omniauth.origin` is set to HTTP_REFERER
-provider :twitter, ENV['KEY'], ENV['SECRET'], origin_param: 'return_to'
+gem 'omniauth'
+gem "omniauth-rails_csrf_protection"
 ```
 
-Disabling Origin Param:
+Then insert OmniAuth as a middleware
+
+**config/initializers/omniauth.rb**:
 ```ruby
-# /auth/twitter
-# Origin handled externally, if need be. `omniauth.origin` is not set
-provider :twitter, ENV['KEY'], ENV['SECRET'], origin_param: false
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :developer if Rails.env.development?
+end
 ```
 
-## Integrating OmniAuth Into Your Rails API
+Additional providers can be added here in the future. Next we wire it
+all up using routes, a controller and a login view.
+
+**config/routes.rb**:
+
+```ruby
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get '/login', to: 'sessions#new'
+```
+
+**app/controllers/sessions_controller.rb**:
+```ruby
+class SessionsController < ApplicationController
+  def new
+    render :new
+  end
+
+  def create
+    user_info = request.env['omniauth.auth']
+    raise user_info # Your own session management should be placed here.
+  end
+end
+```
+
+**app/views/sessions/new.html.erb**:
+```erb
+<%= form_tag('/auth/developer', method: 'post', data: {turbo: false}) do %>
+  <button type='submit'>Login with Developer</button>
+<% end %>
+```
+
+Now if you visit `/login` and click the Login button, you should see the
+OmniAuth developer login screen. After submitting it, you are returned to your
+application at `Sessions#create`. The raise should now display all the Omniauth
+details you have available to integrate it into your own user management.
+
+If you want out of the box usermanagement, you should consider using Omniauth
+through Devise. Please visit the [Devise Github page](https://github.com/heartcombo/devise#omniauth)
+for more information.
+
+
+## Rails API
 The following middleware are (by default) included for session management in
 Rails applications. When using OmniAuth with a Rails API, you'll need to add
 one of these required middleware back in:
@@ -163,7 +184,7 @@ a `session_store.rb` initializer, add `use ActionDispatch::Session::CookieStore`
 and have sessions functioning as normal.
 
 To be clear: sessions may work, but your session options will be ignored
-(i.e the session key will default to `_session_id`).  Instead of the
+(i.e. the session key will default to `_session_id`).  Instead of the
 initializer, you'll have to set the relevant options somewhere
 before your middleware is built (like `application.rb`) and pass them to your
 preferred middleware, like this:
@@ -187,14 +208,51 @@ to `STDOUT` but you can configure this using `OmniAuth.config.logger`:
 OmniAuth.config.logger = Rails.logger
 ```
 
+## Origin Param
+The `origin` url parameter is typically used to inform where a user came from
+and where, should you choose to use it, they'd want to return to.
+Omniauth supports the following settings which can be configured on a provider level:
+
+**Default**:
+```ruby
+provider :twitter, ENV['KEY'], ENV['SECRET']
+POST /auth/twitter/?origin=[URL]
+# If the `origin` parameter is blank, `omniauth.origin` is set to HTTP_REFERER
+```
+
+**Using a differently named origin parameter**:
+```ruby
+provider :twitter, ENV['KEY'], ENV['SECRET'], origin_param: 'return_to'
+POST /auth/twitter/?return_to=[URL]
+# If the `return_to` parameter is blank, `omniauth.origin` is set to HTTP_REFERER
+```
+
+**Disabled**:
+```ruby
+provider :twitter, ENV['KEY'], ENV['SECRET'], origin_param: false
+POST /auth/twitter
+# This means the origin should be handled by your own application. 
+# Note that `omniauth.origin` will always be blank.
+```
+
 ## Resources
 The [OmniAuth Wiki](https://github.com/omniauth/omniauth/wiki) has
 actively maintained in-depth documentation for OmniAuth. It should be
 your first stop if you are wondering about a more in-depth look at
 OmniAuth, how it works, and how to use it.
 
+## OmniAuth for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of OmniAuth and thousands of other packages are working with
+Tidelift to deliver commercial support and maintenance for the open source
+packages you use to build your applications. Save time, reduce risk, and
+improve code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/rubygems-omniauth?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
 ## Supported Ruby Versions
-OmniAuth is tested under 2.1.10, 2.2.6, 2.3.3, 2.4.0, 2.5.0, and JRuby.
+OmniAuth is tested under 2.5, 2.6, 2.7, truffleruby, and JRuby.
 
 ## Versioning
 This library aims to adhere to [Semantic Versioning 2.0.0][semver]. Violations
