@@ -1,32 +1,32 @@
 Source: ruby-omniauth
-Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Maintainer: Debian Ruby Team <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
 Uploaders: Pirate Praveen <praveen@debian.org>,
            Utkarsh Gupta <utkarsh@debian.org>
 Section: ruby
-Testsuite: autopkgtest-pkg-ruby
 Priority: optional
-Build-Depends: debhelper-compat (= 12),
-               gem2deb,
+Build-Depends: debhelper-compat (= 13),
+               gem2deb (>= 1),
                rake,
-               ruby-hashie (>= 3.4.6~),
-               ruby-rack,
+               ruby-hashie,
+               ruby-rack (>= 2.2.3~),
+               ruby-rack-protection,
                ruby-rack-test,
                ruby-rspec,
                ruby-simplecov,
                ruby-coveralls
-Standards-Version: 4.5.0
-Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-omniauth
+Standards-Version: 4.6.2
 Vcs-Git: https://salsa.debian.org/ruby-team/ruby-omniauth.git
+Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-omniauth
 Homepage: https://github.com/omniauth/omniauth
+Testsuite: autopkgtest-pkg-ruby
 XS-Ruby-Versions: all
 Rules-Requires-Root: no
 
 Package: ruby-omniauth
 Architecture: all
 XB-Ruby-Versions: ${ruby:Versions}
-Depends: ruby-hashie (>= 3.4.6~),
-         ruby-rack,
-         ${misc:Depends},
+Depends: ${misc:Depends},
+         ${ruby:Depends},
          ${shlibs:Depends}
 Description: flexible authentication system utilizing Rack middleware
  OmniAuth is a Ruby library that standardizes multi-provider

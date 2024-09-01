@@ -1,3 +1,65 @@
+ruby-omniauth (2.1.1-1) unstable; urgency=medium
+
+  [ Pirate Praveen ]
+  * Team Upload.
+  * Update minimum version of ruby-rack to 2.2.3
+
+  [ Debian Janitor ]
+  * Set field Upstream-Contact in debian/copyright.
+  * Set upstream metadata fields: Security-Contact.
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata
+    (already present in machine-readable debian/copyright).
+
+  [ Nilesh Patra ]
+  * New upstream version 2.1.1 (Closes: #1026627)
+  * Bump Standards-Version to 4.6.2 (no changes needed)
+
+ -- Nilesh Patra <nilesh@debian.org>  Sun, 22 Jan 2023 13:00:49 +0530
+
+ruby-omniauth (2.1.0-1) unstable; urgency=medium
+
+  * Update watch file to use github api
+  * New upstream version 2.1.0
+
+ -- Pirate Praveen <praveen@debian.org>  Mon, 24 Oct 2022 15:19:48 +0530
+
+ruby-omniauth (2.0.4-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Antonio Terceiro <terceiro@debian.org>  Wed, 07 Sep 2022 21:28:36 -0300
+
+ruby-omniauth (2.0.4-1) experimental; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster
+
+  [ Antonio Terceiro ]
+  * Bump Standards-Version to 4.6.1; no changes needed
+
+ -- Antonio Terceiro <terceiro@debian.org>  Wed, 07 Sep 2022 14:32:04 -0300
+
+ruby-omniauth (2.0.4-1~exp1) experimental; urgency=medium
+
+  * Team upload
+
+  [ Cédric Boutillier ]
+  * Update team name
+  * Add .gitattributes to keep unwanted files out of the source package
+
+  [ Antonio Terceiro ]
+  * New upstream version 2.0.4
+  * Refresh packaging files with dh-make-ruby
+    - Reorder fields slightly
+    - Refresh Build-Depends
+    - Depends: replace hardcoded dependencies with ${ruby:Depends}
+    - debian/rules: use --gem-install (changes installation layout)
+  * Add patches to fix the test suite run
+
+ -- Antonio Terceiro <terceiro@debian.org>  Thu, 10 Jun 2021 09:28:38 -0300
+
 ruby-omniauth (1.9.1-1) unstable; urgency=medium
 
   * New upstream version 1.9.1

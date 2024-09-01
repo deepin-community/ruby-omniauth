@@ -1,2 +1,5 @@
 version=4
-https://github.com/omniauth/omniauth/releases .*/v([\d\.]+).tar.gz
+opts="searchmode=plain, \
+  filenamemangle=s/.+\/v@ANY_VERSION@/@PACKAGE@-$1\.tar\.gz/" \
+https://api.github.com/repos/omniauth/omniauth/releases \
+https://api.github.com/repos/omniauth/omniauth/tarball/v@ANY_VERSION@

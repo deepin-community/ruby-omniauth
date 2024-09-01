@@ -1,1 +1,3 @@
 disable-test-that-use-net.patch
+0002-spec-helper.rb-skip-all-coverage-check-during-build.patch
+0003-spec-helper.rb-drop-rack-freeze-usage.patch

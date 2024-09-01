@@ -1,0 +1,24 @@
+From: Antonio Terceiro <terceiro@debian.org>
+Date: Thu, 10 Jun 2021 09:27:11 -0300
+Subject: spec/helper.rb: drop rack-freeze usage
+
+The funcionality of rack-freeze has been already incorporated into rack
+2.1 (that we already have), and the tests pass just fine without it.
+
+Forwarded: not-needed
+---
+ spec/helper.rb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/spec/helper.rb b/spec/helper.rb
+index 2c0c846..8a162e5 100644
+--- a/spec/helper.rb
++++ b/spec/helper.rb
+@@ -20,7 +20,6 @@ end
+ 
+ require 'rspec'
+ require 'rack/test'
+-require 'rack/freeze'
+ require 'omniauth'
+ require 'omniauth/test'
+ 
